@@ -7,6 +7,7 @@
     <title>Admin panel</title>
 </head>
 <body>
-    
+    <a href="index.php?action=add_dep">Ajouter un département</a><br><br>
+    <a href="index.php?action=add_users">Ajouter un utilisateur</a><br><br>
 </body>
 </html>

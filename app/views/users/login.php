@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion - Admin</title>
+    <title>Connexion</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,11 +56,15 @@
 </head>
 <body>
     <div class="login-box">
+
         <h2>Connexion</h2>
-        <?php if ($erreur): ?>
+
+        <?php if (!empty($erreur)){?>
             <div class="error"><?= $erreur ?></div>
-        <?php endif; ?>
-        <form method="POST" action="">
+        <?php }; ?>
+
+        <form method="POST" action="index.php?action=connexion">
+            
             <label>Email :</label>
             <input type="email" name="email" required>
 
@@ -72,3 +76,4 @@
     </div>
 </body>
 </html>
+

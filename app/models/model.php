@@ -57,10 +57,27 @@ class modeladmin {
             else{
                 return true;
             }
+        }  
+
+    }
+
+    public function add_dep($table, $data){
+        $connect = $this->db;
+        if (!$connect){
+            return false;
         }
+        else{
+            $colonnes = implode(", ", array_keys($data));
+            $placeholders = ":" . implode(", :", array_keys($data));
 
+            $sql = "INSERT INTO $table ($colonnes) VALUES ($placeholders)";
+            $stmt = $connect->prepare($sql);
+            $stmt = $stmt->execute($data);
+            if($stmt){
+                return true;
+            }
+        }
         
-
     }
 
 }

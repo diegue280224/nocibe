@@ -57,10 +57,13 @@
 <body>
     <div class="login-box">
         <h2>Connexion</h2>
-        <?php if (!empty($erreur)): ?>
+
+        <?php if (!empty($erreur)){?>
             <div class="error"><?= $erreur ?></div>
-        <?php endif; ?>
+        <?php }; ?>
+
         <form method="POST" action="index.php?action=login">
+
             <label>Email :</label>
             <input type="email" name="email" required>
 
@@ -68,6 +71,7 @@
             <input type="password" name="password" required>
 
             <input type="submit" value="Se connecter">
+            
         </form>
     </div>
 </body>
