@@ -7,7 +7,7 @@ class Controladmin {
         include 'app/views/admin/admin_login.php';
     }
 
-    private function login() {
+    public function login() {
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -42,7 +42,7 @@ class Controladmin {
         }
     }
 
-    private function dashboard() {
+    public function dashboard() {
         if (!isset($_SESSION['admin'])) {
             $model = new modeladmin();
             $model->verifie_connect();
@@ -52,21 +52,23 @@ class Controladmin {
                 exit();
             }
             else{
-                session_start();
                 include 'app/views/admin/dashboard_admin.php';
             }
         }
+        else{
+            $erreur = "Connexion expirée";
+            return header("Location: index.php?action=loginForm");
+        }
     }
 
-    private function add_dep(){
+    public function add_dep(){
         $model = new modeladmin();
-        $model->verifie_connect();
-        if($model){
+        if($model->verifie_connect()){
             if (!empty($_POST['nom_dep']) && isset($_POST['nom_dep'])) {
                 $nom_dep = $_POST['nom_dep'];
 
                 $model = new modeladmin();
-                $add_dep = $model->add_dep("departements", $nom_dep);
+                $add_dep = $model->add_dep( $nom_dep);
 
                 if($add_dep){
                     return include 'app/views/admin/dashboard_admin.php';
@@ -88,28 +90,30 @@ class Controladmin {
         
     }
 
-    private function add_users(){
+    public function add_users(){
         $model = new modeladmin();
-        $model->verifie_connect();
-        if($model){
+        
+        if($model->verifie_connect()){
             if (!empty(
                 $_POST['nom_complet']) && isset($_POST['nom_complet']) && 
                 !empty($_POST['email']) && isset($_POST['email']) && 
                 !empty($_POST['poste']) && isset($_POST['poste']) &&
+                !empty($_POST['droit']) && isset($_POST['droit']) &&
                 !empty($_POST['departement']) && isset($_POST['departement'])){
 
                     $donnees = [
-                        $nom_complet = $_POST['nom_complet'],
-                        $email = $_POST['email'],
-                        $poste = $_POST['poste'],
-                        $departement = $_POST['departement']
+                        "nom_complet" => $_POST['nom_complet'],
+                        "email" => $_POST['email'],
+                        "poste" => $_POST['poste'],
+                        "droit" => $_POST['droit'],
+                        "departement" => $_POST['departement']
                     ];
-                
 
                     $model = new modeladmin();
-                    $add_users = $model->add_dep("departements", $donnees);
+                    $add_users = $model->add_users( $donnees);
 
                     if($add_users){
+                        $email = $donnees["email"];
                         return include 'app/envoie_mail/sendmail.php';
                     }
                     else{
@@ -117,14 +121,36 @@ class Controladmin {
                         return include 'app/views/admin/add_users.php';
                     }
             }
-            else{
+            elseif(empty($_POST['nom_complet']) || !isset($_POST['nom_complet'])){
+                $erreur = "Entré Nom invalide";
                 return include 'app/views/admin/add_users.php';
             }
+
+            elseif(empty($_POST['email']) || !isset($_POST['email'])){
+                $erreur = "Email invalide";
+                return include 'app/views/admin/add_users.php';
+            }
+
+            elseif(empty($_POST['poste']) || !isset($_POST['poste'])){
+                $erreur = "Entré Poste invalide";
+                return include 'app/views/admin/add_users.php';
+            }
+
+            elseif(empty($_POST['droit']) || !isset($_POST['droit'])){
+                $erreur = "Entré droit invalide";
+                return include 'app/views/admin/add_users.php';
+            }
+
+            elseif(empty($_POST['departement']) || !isset($_POST['departement'])){
+                $erreur = "Entré Poste invalide";
+                return include 'app/views/admin/add_users.php';
+            }
+
+            return include 'app/views/admin/add_users.php';
         }
         else{
             $erreur = "Connexion expirée";
-            header("Location: index.php?action=loginForm");
-            exit();
+            return header("Location: index.php?action=loginForm");
         }
     }
 

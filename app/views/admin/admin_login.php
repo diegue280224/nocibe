@@ -59,7 +59,7 @@
         <h2>Connexion</h2>
 
         <?php if (!empty($erreur)){?>
-            <div class="error"><?= $erreur ?></div>
+            <div class="error"><?php echo $erreur ?></div>
         <?php }; ?>
 
         <form method="POST" action="index.php?action=login">

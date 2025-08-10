@@ -27,8 +27,7 @@
             color: #0D6EFD;
         }
 
-        .login-box input[type="email"],
-        .login-box input[type="password"] {
+        .login-box input {
             width: 100%;
             padding: 12px;
             margin: 8px 0 20px;
@@ -64,8 +63,8 @@
 
         <form method="POST" action="index.php?action=add_dep">
 
-            <label name="nom_dep">Nom du département:</label>
-            <input type="text" name="nom_dep" required>
+            <label name="nom_dep">Nom du département:</label><br>
+            <input type="text" name="nom_dep" required><br><br>
 
             <input type="submit" value="Ajouter">
             

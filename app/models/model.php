@@ -33,51 +33,91 @@ class modeladmin {
     }
 
     public function verifie_connect(){
-        $email = $_COOKIE['email'];
-        $token = $_COOKIE['token'];
-        if(isset($email) || isset($token)){
-            return false;
+        //session_start(); 
+
+        // Vérifier si on a une session valide
+        if (isset($_SESSION['admin_id'])) {
+            return true;
         }
-        else{
-            $sql = "SELECT * FROM admins WHERE email = :email AND token = :token";
+
+        // Si pas de session, vérifier les cookies
+        if (!empty($_COOKIE['email']) && !empty($_COOKIE['token'])) {
+            $email = $_COOKIE['email'];
+            $token = $_COOKIE['token'];
+
+            $sql = "SELECT id FROM admins WHERE email = :email AND token = :token LIMIT 1";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 ':email' => $email,
                 ':token' => $token
             ]);
+
             $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (!$admin) {
-                
-                if (!isset($_SESSION['admin_id'])) {
-                    return false;
-                }
-
-            }
-            else{
+            if ($admin) {
+                // Réinitialiser la session pour prolonger la connexion
+                $_SESSION['admin_id'] = $admin['id'];
                 return true;
             }
-        }  
+        }
 
+        // Si aucune condition remplie
+        return false;
     }
 
-    public function add_dep($table, $data){
+
+
+    public function add_dep($data){
         $connect = $this->db;
         if (!$connect){
             return false;
         }
         else{
-            $colonnes = implode(", ", array_keys($data));
-            $placeholders = ":" . implode(", :", array_keys($data));
-
-            $sql = "INSERT INTO $table ($colonnes) VALUES ($placeholders)";
-            $stmt = $connect->prepare($sql);
-            $stmt = $stmt->execute($data);
+            
+            $stmt = $connect->prepare("INSERT INTO departements (nom_dep) VALUES (:nom_dep)");
+            $stmt->bindParam(':nom_dep', $data, PDO::PARAM_STR);
+            $stmt->execute();
             if($stmt){
                 return true;
             }
+            
         }
         
+    }
+
+    public function add_users($data){
+        $connect = $this->db;
+        if (!$connect){
+            return false;
+        }
+        else{
+            
+            $stmt = $connect->prepare(
+                "INSERT INTO users (nom_complet, email, poste, droit, departement) 
+                VALUES (:nom_complet, :email, :poste, :droit, :departement)"
+            );
+
+            $stmt->execute([
+                ':nom_complet' => $data['nom_complet'],
+                ':email' => $data['email'],
+                ':poste' => $data['poste'],
+                ':droit' => $data['droit'],
+                ':departement' => $data['departement']
+            ]);
+
+            return true;
+
+            
+        }
+        
+    }
+
+    function recuperer_tous($table, $ordre = 'DESC') {
+        $con = $this->db;
+        if (!$con) return [];
+
+        $stmt = $con->query("SELECT * FROM $table ORDER BY id $ordre");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

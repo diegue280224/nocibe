@@ -1,3 +1,15 @@
+<?php 
+include_once 'app/models/model.php';
+$model = new modeladmin();
+
+$depp = []; 
+$dep = $model->recuperer_tous("departements", $ordre = 'DESC');
+
+foreach ($dep as $d) {
+    $depp[] = $d['nom_dep']; 
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -28,7 +40,8 @@
         }
 
         .login-box input[type="email"],
-        .login-box input[type="password"] {
+        .login-box input,
+        .login-box select {
             width: 100%;
             padding: 12px;
             margin: 8px 0 20px;
@@ -58,36 +71,45 @@
     <div class="login-box">
         <h2>Ajouter un utilisateur</h2>
 
-        <?php if ($erreur): ?>
+        <?php if (!empty($erreur)){?>
             <div class="error"><?= $erreur ?></div>
-        <?php endif; ?>
+        <?php }; ?>
 
-        <form method="POST" action="index.php?action=inscription">
+        <form method="POST" action="index.php?action=add_users">
 
-            <label name="nom_complet">Nom Complet :</label>
-            <input type="text" name="nom_complet" required>
+            <label name="nom_complet">Nom Complet :</label><br>
+            <input type="text" name="nom_complet" required><br>
 
-            <label name="email">Email :</label>
-            <input type="email" name="email" required>
+            <label name="email">Email :</label><br>
+            <input type="email" name="email" required><br>
 
-            <label name="poste">Poste :</label>
-            <input type="text" name="poste" required>
+            <label name="poste">Poste :</label>br
 
-            <label name="departement">Département d'intervenance :</label>
+            <input type="text" name="poste" required><br>
 
+            <label name="departement">Département d'intervenance :</label><br>
+
+            <label name="droit">Droit d'utilisateur :</label><br>
+        
+            <select name="droit" id="droit">
+                <option value="">Sélectionner un droit</option>
+                <option value="validation">Droit de validation</option>
+                <option value="edite">Droit de création</option>
+                <option value="impression">Droit d'impression'</option>
+                <option value="tous">Tous les droits</option>
+            </select><br>
+        
             <select name="departement" id="departement">
                 <option value="">Sélectionner une option</option>
 
                 <?php
-                if(isset($dep)){
-                    foreach ($dep as $d){
-                ?>
-                <option value="<?php echo htmlspecialchars($d); ?>">
-                        <?php 
-                        echo htmlspecialchars($d); ?>
-                </option>
-                <?php } } ?>
-            </select>
+                if(isset($depp)){
+                    foreach ($depp as $key => $value){ ?>
+                    <option value="<?php echo htmlspecialchars($value); ?>">
+                        <?php echo htmlspecialchars($value); ?>
+                    </option>
+                <?php } }?>
+            </select><br>
 
             <input type="submit" value="Ajouter">
         </form>
