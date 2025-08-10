@@ -1,3 +1,19 @@
+<?php
+require_once 'app/models/model.php';
+require_once 'app/controllers/controller.php';
+
+$controller = new Controladmin();
+$model = new modeladmin();
+        
+if(!$model->verifie_connect()){
+    header("Location: index.php?action=loginForm");
+}
+elseif($controller->logout()){
+    header("Location: index.php?action=loginForm");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
