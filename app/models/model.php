@@ -127,8 +127,8 @@ class modeladmin {
         else{
             
             $stmt = $connect->prepare(
-                "INSERT INTO users (nom_complet, email, poste, droit, departement) 
-                VALUES (:nom_complet, :email, :poste, :droit, :departement)"
+                "INSERT INTO users (nom_complet, email, poste, droit, departement, heure) 
+                VALUES (:nom_complet, :email, :poste, :droit, :departement, :heure)"
             );
 
             $stmt->execute([
@@ -136,7 +136,8 @@ class modeladmin {
                 ':email' => $data['email'],
                 ':poste' => $data['poste'],
                 ':droit' => $data['droit'],
-                ':departement' => $data['departement']
+                ':departement' => $data['departement'],
+                ':heure' => $data['heure']
             ]);
 
             return true;

@@ -1,3 +1,23 @@
+<?php 
+include_once 'app/models/model.php';
+$model = new modeladmin();
+
+$depp = []; 
+$dep = $model->recuperer_tous("departements", $ordre = 'DESC');
+
+foreach ($dep as $d) {
+    $depp[] = $d['nom_dep']; 
+}
+
+$user = [];
+$users = $model->recuperer_tous("users", $ordre = 'DESC');
+
+foreach ($users as $us) {
+    $user[] = $us['nom_complet']; 
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -30,28 +50,29 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?action=departements" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
+                    <a href="index.php?action=departements" target="_blank" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
                         <i class="mdi mdi-office-building fs-5"></i>
                         <span>Départements</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a href="index.php?action=historique" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
+                    <a href="index.php?action=modify_users" target="_blank" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
+                        <i class="bi bi-arrow-repeat fs-5"></i>
+                        <span>Mise à jour Utilisateurs</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="index.php?action=historiques" target="_blank" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
                         <i class="mdi mdi-history fs-5"></i>
                         <span>Historiques</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?action=droit" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
+                    <a href="index.php?action=droit" target="_blank" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
                         <i class="bi bi-key fs-5"></i>
                         <span>Droits</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="index.php?action=mise_a_jour" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
-                        <i class="bi bi-arrow-repeat fs-5"></i>
-                        <span>Mise à jour</span>
                     </a>
                 </li>
 
@@ -115,7 +136,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="text-muted mb-2">Départements</h6>
-                                <h2 class="mb-0 fw-bold">00</h2>
+                                <h2 class="mb-0 fw-bold"><?php echo count($depp);?></h2>
                             </div>
                             <div class="bg-primary bg-opacity-10 p-3 rounded">
                                 <i class="mdi mdi-office-building-marker text-primary fs-3"></i>
@@ -133,7 +154,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="text-muted mb-2">Utilisateurs</h6>
-                                <h2 class="mb-0 fw-bold">00</h2>
+                                <h2 class="mb-0 fw-bold"><?php echo count($user);?></h2>
                             </div>
                             <div class="bg-success bg-opacity-10 p-3 rounded">
                                 <i class="mdi mdi-account-group text-success fs-3"></i>
@@ -215,10 +236,10 @@
                             
                             <div class="d-grid gap-3">
                                 <button class="btn btn-primary">
-                                    <i class="mdi mdi-plus me-2"></i><a href="index.php?action=add_dep">Nouveau Département</a>
+                                    <i class="mdi mdi-plus me-2"></i><a href="index.php?action=add_dep" target="_blank">Nouveau Département</a>
                                 </button>
                                 <button class="btn btn-outline-secondary">
-                                    <i class="mdi mdi-account-plus me-2"></i><a href="index.php?action=add_users">Ajouter Utilisateur</a>
+                                    <i class="mdi mdi-account-plus me-2"></i><a href="index.php?action=add_users" target="_blank">Ajouter Utilisateur</a>
                                 </button>
                                 <button class="btn btn-outline-success">
                                     <i class="mdi mdi-file-export me-2"></i>Exporter Données

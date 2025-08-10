@@ -102,12 +102,16 @@ class Controladmin {
                 !empty($_POST['droit']) && isset($_POST['droit']) &&
                 !empty($_POST['departement']) && isset($_POST['departement'])){
 
+                    date_default_timezone_set('Africa/Porto-Novo');
+                    $h = date('H:i:s');
+
                     $donnees = [
                         "nom_complet" => $_POST['nom_complet'],
                         "email" => $_POST['email'],
                         "poste" => $_POST['poste'],
                         "droit" => $_POST['droit'],
-                        "departement" => $_POST['departement']
+                        "departement" => $_POST['departement'],
+                        "heure" => $h
                     ];
 
                     $model = new modeladmin();
@@ -177,6 +181,30 @@ class Controladmin {
 
         // 5. Redirection vers la page de connexion
         return header("Location: index.php?action=loginForm");
+    }
+
+    public function droit(){
+        $model = new modeladmin();
+        
+        if($model->verifie_connect()){
+            return include 'app/views/admin/droit_utilisateur.php';
+        }
+        else{
+            return header("Location: index.php?action=loginForm");
+        }
+    }
+
+    public function modify_users(){
+
+        $model = new modeladmin();
+        
+        if($model->verifie_connect()){
+            return include 'app/views/admin/mise_a_jour.php';
+        }
+        else{
+            return header("Location: index.php?action=loginForm");
+        }
+
     }
 
 }

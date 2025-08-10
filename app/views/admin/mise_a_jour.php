@@ -1,3 +1,12 @@
+<?php 
+include_once 'app/models/model.php';
+$model = new modeladmin();
+
+$user = [];
+$users = $model->recuperer_tous("users", $ordre = 'DESC');
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,7 +24,7 @@
         <table class="table table-striped table-hover align-middle">
             <thead class="table-dark text-center">
                 <tr>
-                    <th>ID</th>
+                    <th>N°</th>
                     <th>Nom</th>
                     <th>Email</th>
                     <th>Date modification</th>
@@ -23,43 +32,24 @@
                     <th>Actions</th>
                 </tr>
             </thead>
+
             <tbody>
-                <!-- Exemple utilisateur 1 -->
-                <tr>
-                    <td class="text-center">1</td>
-                    <td class="text-center">Jean Dupont</td>
-                    <td class="text-center">jean.dupont@example.com</td>
-                    <td class="text-center">2025-08-10</td>
-                    <td class="text-center">14:35</td>
-                    <td class="text-center">
+            <?php
+            $n = 1;
+            foreach ($users as $us) { ?>
+                <tr class="text-center">
+                    <td><?= htmlspecialchars($n) ?></td>
+                    <td><?= htmlspecialchars($us['nom_complet']) ?></td>
+                    <td><?= htmlspecialchars($us['email']) ?></td>
+                    <td><?= htmlspecialchars($us['date_enregistrement']) ?></td>
+                    <td><?= htmlspecialchars($us['heure']) ?></td>
+                    <td>
                         <button class="btn btn-warning btn-sm me-2">Modifier</button>
                         <button class="btn btn-danger btn-sm">Supprimer</button>
                     </td>
                 </tr>
-                <!-- Exemple utilisateur 2 -->
-                <tr>
-                    <td class="text-center">2</td>
-                    <td class="text-center">Marie Curie</td>
-                    <td class="text-center">marie.curie@example.com</td>
-                    <td class="text-center">2025-08-09</td>
-                    <td class="text-center">09:12</td>
-                    <td class="text-center">
-                        <button class="btn btn-warning btn-sm me-2">Modifier</button>
-                        <button class="btn btn-danger btn-sm">Supprimer</button>
-                    </td>
-                </tr>
-                <!-- Exemple utilisateur 3 -->
-                <tr>
-                    <td class="text-center">3</td>
-                    <td class="text-center">Ahmed Diallo</td>
-                    <td class="text-center">ahmed.diallo@example.com</td>
-                    <td class="text-center">2025-08-08</td>
-                    <td class="text-center">17:50</td>
-                    <td class="text-center">
-                        <button class="btn btn-warning btn-sm me-2">Modifier</button>
-                        <button class="btn btn-danger btn-sm">Supprimer</button>
-                    </td>
-                </tr>
+                <?php $n = $n + 1; ?>
+            <?php } ?>
             </tbody>
         </table>
     </div>
