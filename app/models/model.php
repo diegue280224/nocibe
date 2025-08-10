@@ -33,10 +33,9 @@ class modeladmin {
     }
 
     public function verifie_connect(){
-        //session_start(); 
-
-        // Vérifier si on a une session valide
+        
         if (isset($_SESSION['admin_id'])) {
+            session_start();
             return true;
         }
 
@@ -64,6 +63,41 @@ class modeladmin {
         // Si aucune condition remplie
         return false;
     }
+    // public function verifie_connect(){
+    //     // Démarrer la session si pas encore démarrée
+    //     if (session_status() === PHP_SESSION_NONE) {
+    //         session_start();
+    //     }
+
+    //     // Si session admin active, accès autorisé
+    //     if (isset($_SESSION['admin_id'])) {
+    //         return true;
+    //     }
+
+    //     // Vérifier les cookies uniquement si session inactive
+    //     if (!empty($_COOKIE['email']) && !empty($_COOKIE['token'])) {
+    //         $email = $_COOKIE['email'];
+    //         $token = $_COOKIE['token'];
+
+    //         $sql = "SELECT id FROM admins WHERE email = :email AND token = :token LIMIT 1";
+    //         $stmt = $this->db->prepare($sql);
+    //         $stmt->execute([
+    //             ':email' => $email,
+    //             ':token' => $token
+    //         ]);
+
+    //         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //         if ($admin) {
+    //             // Créer la session pour prolonger la connexion
+    //             $_SESSION['admin_id'] = $admin['id'];
+    //             return true;
+    //         }
+    //     }
+
+    //     // Si les cookies sont absents, vides ou invalides : accès refusé
+    //     return false;
+    // }
 
 
 

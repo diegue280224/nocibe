@@ -43,6 +43,7 @@ class Controladmin {
     }
 
     public function dashboard() {
+        
         if (!isset($_SESSION['admin'])) {
             $model = new modeladmin();
             $model->verifie_connect();
@@ -154,5 +155,28 @@ class Controladmin {
         }
     }
 
+    public function logout(){
+        // 1. Démarrer la session si elle n'est pas déjà démarrée
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // 2. Supprimer toutes les variables de session
+        $_SESSION = [];
+
+        // 3. Détruire la session
+        session_destroy();
+
+        // 4. Supprimer les cookies de connexion
+        if (isset($_COOKIE['email'])) {
+            setcookie('email', '', time() - 3600, '/');
+        }
+        if (isset($_COOKIE['token'])) {
+            setcookie('token', '', time() - 3600, '/');
+        }
+
+        // 5. Redirection vers la page de connexion
+        return header("Location: index.php?action=loginForm");
+    }
 
 }
