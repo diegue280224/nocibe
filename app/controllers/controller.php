@@ -207,4 +207,26 @@ class Controladmin {
 
     }
 
+     public function departement(){
+        $model = new modeladmin();
+        
+        if($model->verifie_connect()){
+            return include 'app/views/admin/departement.php';
+        }
+        else{
+            return header("Location: index.php?action=loginForm");
+        }
+    }
+
+    public function historiques(){
+        $model = new modeladmin();
+        
+        if($model->verifie_connect()){
+            return include 'app/views/admin/historique.php';
+        }
+        else{
+            return header("Location: index.php?action=loginForm");
+        }
+    }
+
 }

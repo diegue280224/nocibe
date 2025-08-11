@@ -50,27 +50,27 @@ foreach ($users as $us) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?action=departements" target="_blank" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
+                    <a href="index.php?action=departement"  class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
                         <i class="mdi mdi-office-building fs-5"></i>
                         <span>Départements</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="index.php?action=modify_users" target="_blank" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
+                    <a href="index.php?action=modify_users"  class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
                         <i class="bi bi-arrow-repeat fs-5"></i>
                         <span>Mise à jour Utilisateurs</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="index.php?action=historiques" target="_blank" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
+                    <a href="index.php?action=historiques"  class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
                         <i class="mdi mdi-history fs-5"></i>
                         <span>Historiques</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?action=droit" target="_blank" class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
+                    <a href="index.php?action=droit"  class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
                         <i class="bi bi-key fs-5"></i>
                         <span>Droits</span>
                     </a>
@@ -235,15 +235,19 @@ foreach ($users as $us) {
                             <h5 class="card-title mb-4">Actions Rapides</h5>
                             
                             <div class="d-grid gap-3">
-                                <button class="btn btn-primary">
-                                    <i class="mdi mdi-plus me-2"></i><a href="index.php?action=add_dep" target="_blank">Nouveau Département</a>
-                                </button>
-                                <button class="btn btn-outline-secondary">
-                                    <i class="mdi mdi-account-plus me-2"></i><a href="index.php?action=add_users" target="_blank">Ajouter Utilisateur</a>
-                                </button>
-                                <button class="btn btn-outline-success">
-                                    <i class="mdi mdi-file-export me-2"></i>Exporter Données
-                                </button>
+                                <a href="index.php?action=add_dep" class="btn btn-primary d-inline-flex align-items-center">
+                                <i class="mdi mdi-plus me-2"></i>
+                                Nouveau Département
+                                </a>
+                                <a href="index.php?action=add_users" class="btn btn-secondary d-inline-flex align-items-center">
+                                <i class="mdi mdi-account-plus me-2"></i>
+                                Ajouter Utilisateur
+                                </a>
+
+                                <a href="#" class="btn btn-success d-inline-flex align-items-center">
+                                <i class="mdi mdi-account-plus me-2"></i>
+                                Exporter Données
+                                </a>
                             </div>
                             
                             <hr class="my-4">
