@@ -63,41 +63,42 @@ class modeladmin {
         // Si aucune condition remplie
         return false;
     }
-    // public function verifie_connect(){
-    //     // Démarrer la session si pas encore démarrée
-    //     if (session_status() === PHP_SESSION_NONE) {
-    //         session_start();
-    //     }
 
-    //     // Si session admin active, accès autorisé
-    //     if (isset($_SESSION['admin_id'])) {
-    //         return true;
-    //     }
+ /*    public function verifie_connect(){
+          // Démarrer la session si pas encore démarrée
+          if (session_status() === PHP_SESSION_NONE) {
+              session_start();
+          }
 
-    //     // Vérifier les cookies uniquement si session inactive
-    //     if (!empty($_COOKIE['email']) && !empty($_COOKIE['token'])) {
-    //         $email = $_COOKIE['email'];
-    //         $token = $_COOKIE['token'];
+          // Si session admin active, accès autorisé
+          if (isset($_SESSION['admin_id'])) {
+              return true;
+          }
 
-    //         $sql = "SELECT id FROM admins WHERE email = :email AND token = :token LIMIT 1";
-    //         $stmt = $this->db->prepare($sql);
-    //         $stmt->execute([
-    //             ':email' => $email,
-    //             ':token' => $token
-    //         ]);
+          // Vérifier les cookies uniquement si session inactive
+          if (!empty($_COOKIE['email']) && !empty($_COOKIE['token'])) {
+              $email = $_COOKIE['email'];
+              $token = $_COOKIE['token'];
 
-    //         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+              $sql = "SELECT id FROM admins WHERE email = :email AND token = :token LIMIT 1";
+              $stmt = $this->db->prepare($sql);
+              $stmt->execute([
+                  ':email' => $email,
+                  ':token' => $token
+              ]);
 
-    //         if ($admin) {
-    //             // Créer la session pour prolonger la connexion
-    //             $_SESSION['admin_id'] = $admin['id'];
-    //             return true;
-    //         }
-    //     }
+              $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    //     // Si les cookies sont absents, vides ou invalides : accès refusé
-    //     return false;
-    // }
+              if ($admin) {
+                  // Créer la session pour prolonger la connexion
+                  $_SESSION['admin_id'] = $admin['id'];
+                  return true;
+              }
+          }
+
+          // Si les cookies sont absents, vides ou invalides : accès refusé
+         return false;
+     }*/
 
 
 
@@ -127,8 +128,8 @@ class modeladmin {
         else{
             
             $stmt = $connect->prepare(
-                "INSERT INTO users (nom_complet, email, poste, droit, departement) 
-                VALUES (:nom_complet, :email, :poste, :droit, :departement)"
+                "INSERT INTO users (nom_complet, email, poste, droit, departement, heure) 
+                VALUES (:nom_complet, :email, :poste, :droit, :departement, :heure)"
             );
 
             $stmt->execute([
@@ -136,7 +137,8 @@ class modeladmin {
                 ':email' => $data['email'],
                 ':poste' => $data['poste'],
                 ':droit' => $data['droit'],
-                ':departement' => $data['departement']
+                ':departement' => $data['departement'],
+                ':heure' => $data['heure']
             ]);
 
             return true;
@@ -153,5 +155,57 @@ class modeladmin {
         $stmt = $con->query("SELECT * FROM $table ORDER BY id $ordre");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    function insertData(string $table, array $data): bool {
+        $pdo = $this ->db;
+
+        try {
+            $columns = implode(", ", array_keys($data));
+            $placeholders = ":" . implode(", :", array_keys($data));
+            $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
+
+            $stmt = $pdo->prepare($sql);
+            return $stmt->execute($data);
+
+        } catch (PDOException $e) {
+            error_log("Erreur insertion : " . $e->getMessage());
+            return false;
+        }
+    }
+
+    
+    function updateData(string $table, array $data, string $where, array $params = []): bool {
+        $pdo = $this ->db;
+
+        try {
+            $fields = implode(", ", array_map(fn($key) => "$key = :$key", array_keys($data)));
+            $sql = "UPDATE $table SET $fields WHERE $where";
+
+            $stmt = $pdo->prepare($sql);
+            return $stmt->execute(array_merge($data, $params));
+
+        } catch (PDOException $e) {
+            error_log("Erreur mise à jour : " . $e->getMessage());
+            return false;
+        }
+    }
+
+    function deleteData(string $table, string $where, array $params = []): bool {
+        $pdo = $this ->db;
+
+        try {
+            $sql = "DELETE FROM $table WHERE $where";
+            $stmt = $pdo->prepare($sql);
+            return $stmt->execute($params);
+
+        } catch (PDOException $e) {
+            error_log("Erreur suppression : " . $e->getMessage());
+            return false;
+        }
+    }
+
+
+
+
 
 }

@@ -8,111 +8,85 @@ $dep = $model->recuperer_tous("departements", $ordre = 'DESC');
 foreach ($dep as $d) {
     $depp[] = $d['nom_dep']; 
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion - Admin</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f1f1f1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-box {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            width: 350px;
-        }
-
-        .login-box h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #0D6EFD;
-        }
-
-        .login-box input[type="email"],
-        .login-box input,
-        .login-box select {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .login-box input[type="submit"] {
-            background-color: #0D6EFD;
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .login-box .error {
-            color: red;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-    </style>
+    <title>Ajouter un utilisateur - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="login-box">
-        <h2>Ajouter un utilisateur</h2>
+<body class="bg-light d-flex align-items-center" style="min-height: 100vh;">
 
-        <?php if (!empty($erreur)){?>
-            <div class="error"><?= $erreur ?></div>
-        <?php }; ?>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h3 class="text-center text-primary mb-4">Ajouter un utilisateur</h3>
 
-        <form method="POST" action="index.php?action=add_users">
+                        <?php if (empty($erreur)) { ?>
+                            <div class="alert alert-danger text-center py-2 mb-3">
+                                <!-- <?php echo $erreur ?> -->
+                            </div>
+                        <?php } ?>
 
-            <label name="nom_complet">Nom Complet :</label><br>
-            <input type="text" name="nom_complet" required><br>
+                        <form method="POST" action="index.php?action=add_users">
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Nom Complet :</label>
+                                <input type="text" name="nom_complet" class="form-control" required>
+                            </div>
 
-            <label name="email">Email :</label><br>
-            <input type="email" name="email" required><br>
+                            <div class="mb-3">
+                                <label class="form-label">Email :</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
 
-            <label name="poste">Poste :</label>br
+                            <div class="mb-3">
+                                <label class="form-label">Poste :</label>
+                                <input type="text" name="poste" class="form-control" required>
+                            </div>
 
-            <input type="text" name="poste" required><br>
+                            <div class="mb-3">
+                                <label class="form-label">Département d'intervenance :</label>
+                                <select name="departement" id="departement" class="form-select">
+                                    <option value="">Sélectionner une option</option>
+                                    <?php
+                                    if(isset($depp)){
+                                        foreach ($depp as $value){ ?>
+                                            <option value="<?php echo htmlspecialchars($value); ?>">
+                                                <?php echo htmlspecialchars($value); ?>
+                                            </option>
+                                    <?php } } ?>
+                                </select>
+                            </div>
 
-            <label name="departement">Département d'intervenance :</label><br>
+                            <div class="mb-4">
+                                <label class="form-label">Droit d'utilisateur :</label>
+                                <select name="droit" id="droit" class="form-select">
+                                    <option value="">Sélectionner un droit</option>
+                                    <option value="validation">Droit de validation</option>
+                                    <option value="edite">Droit de création</option>
+                                    <option value="impression">Droit d'impression</option>
+                                    <option value="tous">Tous les droits</option>
+                                </select>
+                            </div>
 
-            <label name="droit">Droit d'utilisateur :</label><br>
-        
-            <select name="droit" id="droit">
-                <option value="">Sélectionner un droit</option>
-                <option value="validation">Droit de validation</option>
-                <option value="edite">Droit de création</option>
-                <option value="impression">Droit d'impression'</option>
-                <option value="tous">Tous les droits</option>
-            </select><br>
-        
-            <select name="departement" id="departement">
-                <option value="">Sélectionner une option</option>
-
-                <?php
-                if(isset($depp)){
-                    foreach ($depp as $key => $value){ ?>
-                    <option value="<?php echo htmlspecialchars($value); ?>">
-                        <?php echo htmlspecialchars($value); ?>
-                    </option>
-                <?php } }?>
-            </select><br>
-
-            <input type="submit" value="Ajouter">
-        </form>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-plus-circle me-2"></i> Ajouter
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <p class="text-center mt-3 text-muted small">© <?= date('Y') ?> NOCIBE Admin</p>
+            </div>
+        </div>
     </div>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
