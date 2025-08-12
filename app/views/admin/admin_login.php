@@ -7,10 +7,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: #f8f9fa;
+            background: url('https://img.freepik.com/photos-premium/vue-aerienne-cimenterie-structure-usine-beton-elevee-grue-tour-dans-zone-production-industrielle-concept-fabrication-industrie-mondiale_127089-15286.jpg?w=2000') no-repeat center center fixed;
+            background-size: cover;
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        
         .login-container {
             max-width: 400px;
             width: 100%;
@@ -36,14 +39,15 @@
     <div class="login-container">
         <div class="card login-card p-4">
             <div class="card-body">
-                <h2 class="text-center login-header mb-4">Connexion</h2>
+                <h2 class="text-center login-header mb-4">Connexion admin</h2>
                 <?php if (!empty($erreur)){?>
-            <div class="error"><?php echo $erreur ?></div>
-        <?php }; ?>
+                <div class="error"><?php echo $erreur ?></div>
+                <?php }; ?>
 
-        <form method="POST" action="index.php?action=login">
+                <form method="POST" action="index.php?action=login">
+                    <div class="mb-4">
                         <label for="email" class="form-label">Email :</label>
-                        <input type="email" class="form-control py-2" id="email" name="email" required>
+                        <input type="email" class="form-control py-2" id="email" name="email" required>                 
                     </div>
                     <div class="mb-4">
                         <label for="password" class="form-label">Mot de passe :</label>
