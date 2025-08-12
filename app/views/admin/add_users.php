@@ -27,7 +27,7 @@ foreach ($dep as $d) {
 
                         <?php if (empty($erreur)) { ?>
                             <div class="alert alert-danger text-center py-2 mb-3">
-                                <?= $erreur ?>
+                                <!-- <?php echo $erreur ?> -->
                             </div>
                         <?php } ?>
 

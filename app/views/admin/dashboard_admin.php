@@ -1,5 +1,15 @@
-<?php 
-include_once 'app/models/model.php';
+<<<<<<< HEAD
+<?php
+require_once 'app/models/model.php';
+require_once 'app/controllers/controller.php';
+
+$controller = new Controladmin();
+$model = new modeladmin();
+        
+if(!$model->verifie_connect()){
+    header("Location: index.php?action=loginForm");
+}
+
 $model = new modeladmin();
 
 $depp = []; 
@@ -14,6 +24,7 @@ $users = $model->recuperer_tous("users", $ordre = 'DESC');
 
 foreach ($users as $us) {
     $user[] = $us['nom_complet']; 
+
 }
 
 ?>

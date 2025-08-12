@@ -63,6 +63,7 @@ class modeladmin {
         // Si aucune condition remplie
         return false;
     }
+
  /*    public function verifie_connect(){
           // Démarrer la session si pas encore démarrée
           if (session_status() === PHP_SESSION_NONE) {
@@ -154,5 +155,57 @@ class modeladmin {
         $stmt = $con->query("SELECT * FROM $table ORDER BY id $ordre");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    function insertData(string $table, array $data): bool {
+        $pdo = $this ->db;
+
+        try {
+            $columns = implode(", ", array_keys($data));
+            $placeholders = ":" . implode(", :", array_keys($data));
+            $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
+
+            $stmt = $pdo->prepare($sql);
+            return $stmt->execute($data);
+
+        } catch (PDOException $e) {
+            error_log("Erreur insertion : " . $e->getMessage());
+            return false;
+        }
+    }
+
+    
+    function updateData(string $table, array $data, string $where, array $params = []): bool {
+        $pdo = $this ->db;
+
+        try {
+            $fields = implode(", ", array_map(fn($key) => "$key = :$key", array_keys($data)));
+            $sql = "UPDATE $table SET $fields WHERE $where";
+
+            $stmt = $pdo->prepare($sql);
+            return $stmt->execute(array_merge($data, $params));
+
+        } catch (PDOException $e) {
+            error_log("Erreur mise à jour : " . $e->getMessage());
+            return false;
+        }
+    }
+
+    function deleteData(string $table, string $where, array $params = []): bool {
+        $pdo = $this ->db;
+
+        try {
+            $sql = "DELETE FROM $table WHERE $where";
+            $stmt = $pdo->prepare($sql);
+            return $stmt->execute($params);
+
+        } catch (PDOException $e) {
+            error_log("Erreur suppression : " . $e->getMessage());
+            return false;
+        }
+    }
+
+
+
+
 
 }

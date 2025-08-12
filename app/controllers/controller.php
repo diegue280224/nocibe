@@ -1,6 +1,12 @@
 <?php
 require_once 'app/models/model.php';
 
+require 'vendor/autoload.php';
+
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Email;
+
 class Controladmin {
     public function loginForm() {
         $erreur = "";
@@ -119,7 +125,45 @@ class Controladmin {
 
                     if($add_users){
                         $email = $donnees["email"];
-                        return include 'app/envoie_mail/sendmail.php';
+
+                        $transport = Transport::fromDsn('smtp://nocibe00@gmail.com:wvozxvtqbdonwqib@smtp.gmail.com:587');
+
+                        $mailer = new Mailer($transport);
+
+                        $message = '
+                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 20px;">
+                            <h2 style="color: #0d6efd; text-align: center;">Invitation & Confirmation</h2>
+                            <p style="font-size: 16px; color: #333; text-align: justify;">
+                                Vous avez été invité à rejoindre la plateforme de gestion des laissés-passer visiteurs de 
+                                <strong>NOCIBE-Bénin</strong>.
+                            </p>
+                            <p style="font-size: 15px; color: #555;">
+                                Pour confirmer votre connexion et activer votre compte, veuillez cliquer sur le bouton ci-dessous :
+                            </p>
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="" 
+                                style="background-color: #0d6efd; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                                ✅ Accepter l\'invitation
+                                </a>
+                            </div>
+                            <p style="font-size: 13px; color: #888; text-align: center;">
+                                Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :<br>
+                                <a href="" style="color: #0d6efd;"></a>
+                            </p>
+                        </div>';
+
+                       
+                        $email = (new Email())
+                            ->from('nocibe00@gmail.com')
+                            ->to($email)
+                            
+                            ->subject("Invitation NOCIBE-Bénin")
+                            ->html($message);
+
+                        $mailer->send($email);
+
+                        return include 'app/views/admin/dashboard_admin.php';
+
                     }
                     else{
                         $erreur = "Echec de lors de l'ajout...";
@@ -227,6 +271,23 @@ class Controladmin {
         else{
             return header("Location: index.php?action=loginForm");
         }
+    }
+
+    public function delete_users(){
+        $model = new modeladmin();
+        
+        if($model->verifie_connect()){
+
+            
+            if($model ->deleteData("users", "id = :id", ["id" => 10])){
+
+            }
+            return include 'app/views/admin/historique.php';
+        }
+        else{
+            return header("Location: index.php?action=loginForm");
+        }
+
     }
 
 }

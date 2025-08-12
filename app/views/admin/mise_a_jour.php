@@ -71,12 +71,12 @@ $users = $model->recuperer_tous("users", $ordre = 'DESC');
                                 data-departement="<?= htmlspecialchars($us['departement'] ?? '', ENT_QUOTES) ?>"
                                 data-droit="<?= htmlspecialchars($us['droit'] ?? '', ENT_QUOTES) ?>"
                         >Modifier</button>
-                        <button class="btn btn-danger btn-sm">Supprimer</button>
+                        <button class="btn btn-danger btn-sm"><a href="index.php?action=delete_users">Supprimer</a></button>
                     </td>
                 </tr>
                 <tr class="form-row" id="form-row-<?= $n ?>" style="display:none; background-color:#eef4ff;">
                     <td colspan="6">
-                        <form class="form-modification" data-index="<?= $n ?>">
+                        <form class="form-modification" action="index.php?action=update_users" method="POST" data-index="<?= $n ?>">
                             <div class="row g-3 align-items-center">
                                 <div class="col-md-3">
                                     <label>Nom complet</label>
