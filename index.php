@@ -10,3 +10,6 @@ if (method_exists($controller, $action)) {
 else {
     echo "Action invalide.";
 }
+if (isset($_GET['action']) && $_GET['action'] == 'profil') {
+    include 'views/admin/profil.php'; // c'est le fichier avec le code profil admin
+}

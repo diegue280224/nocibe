@@ -102,7 +102,7 @@ $users = $model->recuperer_tous("users", $ordre = 'DESC');
                                         <option value="admin">Droit d'impression</option>
                                         <option value="superadmin">Tous les droits</option>
                                     </select>  
-                                </div>   
+                                </div>  
                             </div>
                             <div class="mt-3 text-end">
                                 <button type="submit" class="btn btn-success btn-sm">Approuvé</button>

@@ -35,11 +35,11 @@ foreach ($users as $us) {
 </head>
 <body class="d-flex">
     <!-- Sidebar -->
-    <aside class="admin-sidebar vh-100 position-fixed text-white">
-        <div class="p-4">
+    <aside class="admin-sidebar  position-fixed text-white">
+        <div class="p-4 vh-100 bg-primary">
             <div class="text-center mb-5">
                 <h2 class="fw-bold">NOCIBE</h2>
-                <small class="text-muted">Admin Dashboard</small>
+                
             </div>
             
             <ul class="nav flex-column gap-2">
@@ -50,7 +50,7 @@ foreach ($users as $us) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?action=departement"  class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
+                    <a href="index.php?action=departements"  class="nav-link sidebar-link d-flex align-items-center gap-3 text-white p-3">
                         <i class="mdi mdi-office-building fs-5"></i>
                         <span>Départements</span>
                     </a>
@@ -90,19 +90,21 @@ foreach ($users as $us) {
     <div class="main-content w-100">
         <!-- Top Navbar -->
         <nav class="navbar navbar-expand-lg bg-white shadow-sm p-3">
-            <div class="container-fluid">
+            <div class="container-fluid ">
+                  <div class="d-flex justify-content-start text-black"><h5> Dashboard</h5></div>
                 <button class="navbar-toggler d-lg-none" type="button" onclick="toggleSidebar()">
                     <i class="mdi mdi-menu"></i>
                 </button>
-                
-                <div class="d-flex align-items-center gap-4 ms-auto">
-                    <div class="position-relative">
-                        <i class="mdi mdi-bell-outline fs-4"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            3
-                        </span>
-                    </div>
-                    
+            
+                <div class="d-flex justify-content-between ms-auto">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="position-relative">
+                            <i class="mdi mdi-bell-outline fs-4"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                3
+                            </span>
+                        </div>
+                   
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown">
                             <div class="avatar avatar-sm rounded-circle bg-primary text-white d-flex align-items-center justify-content-center">
@@ -122,6 +124,7 @@ foreach ($users as $us) {
                                 <i class="mdi mdi-logout me-2"></i>Déconnexion
                             </a></li>
                         </ul>
+                    </div>
                     </div>
                 </div>
             </div>
