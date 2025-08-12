@@ -2,7 +2,7 @@
     --primary: #6366f1;
     --primary-dark: #4f46e5;
     --secondary: #f43f5e;
-    --dark: #1e293b;
+    --dark: #085feb;
     --light: #f8fafc;
 }
 
@@ -15,7 +15,7 @@ body {
 /* Sidebar Styling */
 .admin-sidebar {
     width: 280px;
-    background: linear-gradient(135deg, var(--dark), #0f172a);
+    background: linear-gradient(135deg, var(--dark), #0443d5);
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
